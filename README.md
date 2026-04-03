@@ -12,6 +12,18 @@ A premium, ambient, and high-performance digital clock screensaver featuring a s
 - **Atmospheric Time Labels**: Includes context-aware Bengali time periods (যেমন: ভোর, সকাল, দুপুর, বিকেল, সন্ধ্যা, রাত) instead of standard AM/PM.
 - **Optimized for Screensavers**: Full-screen toggle support and automatic cursor-hiding for a clean, immersive experience.
 
+## 🎨 Customization
+
+### Changing the Signature Name
+To change the credit name at the bottom of the clock:
+1. Open `index.html` in a text editor.
+2. Search for the text `শহিদুজ্জামান রবিন` (around line 50).
+3. Replace it with your own name.
+4. **Important**: After saving `index.html`, you **must** run the bundler to update the standalone file:
+   ```bash
+   python3 bundle_clock.py
+   ```
+
 ## 🚀 How to Use as a Screensaver (macOS)
 
 1. **Prerequisite**: Download and install [WebViewScreenSaver](https://github.com/liquidfeline/WebViewScreenSaver/releases).
