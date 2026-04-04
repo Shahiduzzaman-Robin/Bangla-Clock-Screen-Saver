@@ -611,10 +611,12 @@ function drawAtmosphere() {
             cloud.x += cloud.speed;
             if (cloud.x > starsCanvas.width) cloud.x = -cloud.width;
             ctx.save();
-            ctx.beginPath();
-            ctx.fillStyle = `rgba(255, 255, 255, ${cloud.opacity})`;
-            ctx.filter = 'blur(15px)'; // Reduced blur for better definition
+            // Use shadowBlur instead of ctx.filter for universal compatibility in screensavers
+            ctx.shadowBlur = 30; 
+            ctx.shadowColor = `rgba(255, 255, 255, ${cloud.opacity})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${cloud.opacity * 0.8})`; 
             
+            ctx.beginPath();
             // Render as a cluster of shapes for a "puffier" look
             ctx.ellipse(cloud.x, cloud.y, cloud.width, cloud.height, 0, 0, Math.PI * 2);
             ctx.ellipse(cloud.x - cloud.width * 0.3, cloud.y + 10, cloud.width * 0.7, cloud.height * 0.8, 0, 0, Math.PI * 2);
