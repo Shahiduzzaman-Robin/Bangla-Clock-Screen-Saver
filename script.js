@@ -85,17 +85,59 @@ function updateClock() {
 
     if (!is24Hour && ampmEl.textContent !== ampm) {
         ampmEl.textContent = ampm;
+        const dummy = document.getElementById('ampm-dummy');
+        if (dummy) dummy.textContent = ampm;
     }
 
-    // Update Date
+    // Bangla Date Calculation
+    function getBanglaDate(dateObj) {
+        const bMonths = ["বৈশাখ", "জ্যৈষ্ঠ", "আষাঢ়", "শ্রাবণ", "ভাদ্র", "আশ্বিন", "কার্তিক", "অগ্রহায়ণ", "পৌষ", "মাঘ", "ফাল্গুন", "চৈত্র"];
+        const gY = dateObj.getFullYear();
+        const gM = dateObj.getMonth();
+        const gD = dateObj.getDate();
+
+        // Pohela Boishakh (April 14) determines the Bengali year boundaries
+        const isAfterBoishakh = (gM > 3) || (gM === 3 && gD >= 14);
+        const startYear = isAfterBoishakh ? gY : gY - 1;
+        const bYear = startYear - 593;
+
+        // Falgun leap year check relies on the Gregorian year that contains Falgun (Feb/Mar of startYear + 1)
+        const yearOfFalgun = startYear + 1;
+        const isLeapYear = (yearOfFalgun % 4 === 0 && yearOfFalgun % 100 !== 0) || (yearOfFalgun % 400 === 0);
+        
+        const bDays = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, isLeapYear ? 30 : 29, 30];
+
+        const startDate = new Date(startYear, 3, 14); // April 14
+        const targetDate = new Date(gY, gM, gD); // normalized exactly to 00:00:00 to avoid DST shifting issues
+        
+        const diff = targetDate - startDate;
+        let daysPassed = Math.round(diff / 86400000); // 86400000 ms per day
+
+        let bMonthIndex = 0;
+        while (daysPassed >= bDays[bMonthIndex]) {
+            daysPassed -= bDays[bMonthIndex];
+            bMonthIndex++;
+        }
+
+        const bDay = daysPassed + 1;
+        return `${toBangla(bDay)} ${bMonths[bMonthIndex]} ${toBangla(bYear)}`;
+    }
+
+    // Update Dates
     const dayName = banglaDays[now.getDay()];
     const dayDate = toBangla(now.getDate());
     const monthName = banglaMonths[now.getMonth()];
     const year = toBangla(now.getFullYear());
     
+    // Combine Gregorian and Bangla Dates into a single line
     const dateString = `${dayName}, ${dayDate} ${monthName} ${year}`;
-    if (dateEl.textContent !== dateString) {
-        dateEl.textContent = dateString;
+    const banglaDateString = getBanglaDate(now);
+    
+    // Use a clean bullet point (•) as a sophisticated visual separator
+    const combinedString = `${dateString} <span style="opacity:0.4; margin:0 12px; font-size: 0.9em;">•</span> ${banglaDateString}`;
+    
+    if (dateEl.innerHTML !== combinedString) {
+        dateEl.innerHTML = combinedString;
     }
 }
 
@@ -272,8 +314,8 @@ async function updateLocation() {
         const locationEl = document.getElementById('location');
 
         if (data.status === 'success') {
-            const translatedCity = locationTranslations[data.city] || data.city;
-            const translatedCountry = locationTranslations[data.country] || data.country;
+            const translatedCity = (locationTranslations[data.city] || data.city).trim();
+            const translatedCountry = (locationTranslations[data.country] || data.country).trim();
             locationEl.textContent = `${translatedCity}, ${translatedCountry}`;
         } else {
             locationEl.textContent = "অবস্থান লোড করা সম্ভব হয়নি";

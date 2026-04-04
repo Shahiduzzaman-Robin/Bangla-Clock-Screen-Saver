@@ -41,7 +41,7 @@ with open(html_path, 'r') as f:
 
 final_html = []
 for line in html_lines:
-    if '<link rel="stylesheet" href="style.css">' in line:
+    if '<link rel="stylesheet" href="style.css' in line:
         final_html.append(f"<style>\n{full_css}\n</style>\n")
     elif '<script src="script.js"></script>' in line:
         final_html.append(f"<script>\n{js_content}\n</script>\n")
