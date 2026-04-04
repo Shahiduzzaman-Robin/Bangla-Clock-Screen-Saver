@@ -7,11 +7,13 @@ A premium, ambient, and high-performance digital clock screensaver featuring a s
 ## ✨ Core Features
 
 - **Smooth Mechanical Scroll**: A custom animation where digits slide vertically when changing—imitating a luxury mechanical counter with precision and fluidity.
-- **Glassmorphism Design**: High-end translucent background with multi-layered blur, depth-shadows, and vibrant **Sky Blue** gradient accents.
-- **Integrated Bangla Calendar**: Features a real-time automatic calculation of the **Bengali Date (বঙ্গাব্দ)** including the current month and year (e.g., ২১ চৈত্র ১৪৩২), displayed alongside the Gregorian date.
-- **Adaptive Locality**: Automatic real-time IP-based geolocation that translates your current district/city and country into beautiful Bengali typography.
-- **Atmospheric Time Labels**: Includes context-aware Bengali time periods (যেমন: ভোর, সকাল, দুপুর, বিকেল, সন্ধ্যা, রাত) instead of standard AM/PM.
-- **Optimized for Screensavers**: Full-screen toggle support and automatic cursor-hiding for a clean, immersive experience.
+- **Dynamic 24-Hour Atmosphere**: A sophisticated `HTML5 Canvas` environment system that automatically transitions through **Night (Starry sky)**, **Dawn**, **Morning (Floating clouds)**, **Noon (Clear deep sky)**, **Late Afternoon (Amber sunset)**, and **Evening (Ambient rain)**.
+- **Glassmorphism Design**: High-end translucent background with multi-layered blur, depth-shadows, and adaptive text contrast.
+- **Real-Time Weather Integration**: Live temperature fetching based on your automatic IP-location, displayed with beautiful Bengali digits and symbols (e.g., ২৭°সে.).
+- **Localized Date & Calendar**: Automatic calculation of the **Bengali Date (বঙ্গাব্দ)** (e.g., ২১ চৈত্র ১৪৩২) alongside the Gregorian date.
+- **Adaptive Locality**: IP-based geolocation that translates your current district/city and country into perfect Bengali typography.
+- **Zero-Touch Automation**: Fully automated theme-switching logic that perfectly captures the "mood" of the time of day without any manual input required.
+- **Optimized for Screensavers**: Single-file standalone bundle with full-screen support and automatic cursor-hiding for an immersive experience.
 
 ## 🎨 Customization
 
