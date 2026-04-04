@@ -611,18 +611,24 @@ function drawAtmosphere() {
             cloud.x += cloud.speed;
             if (cloud.x > starsCanvas.width) cloud.x = -cloud.width;
             ctx.save();
-            // Use shadowBlur instead of ctx.filter for universal compatibility in screensavers
-            ctx.shadowBlur = 30; 
-            ctx.shadowColor = `rgba(255, 255, 255, ${cloud.opacity})`;
-            ctx.fillStyle = `rgba(255, 255, 255, ${cloud.opacity * 0.8})`; 
+            // Function to draw a soft, gradient-based cloud puff
+            const drawPuff = (x, y, w, h) => {
+                const grad = ctx.createRadialGradient(x, y, 0, x, y, Math.max(w, h));
+                grad.addColorStop(0, `rgba(255, 255, 255, ${cloud.opacity * 1.5})`); // Center
+                grad.addColorStop(0.3, `rgba(255, 255, 255, ${cloud.opacity})`);    // Middle
+                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');                    // Outer Edge
+                
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.ellipse(x, y, w, h, 0, 0, Math.PI * 2);
+                ctx.fill();
+            };
             
-            ctx.beginPath();
-            // Render as a cluster of shapes for a "puffier" look
-            ctx.ellipse(cloud.x, cloud.y, cloud.width, cloud.height, 0, 0, Math.PI * 2);
-            ctx.ellipse(cloud.x - cloud.width * 0.3, cloud.y + 10, cloud.width * 0.7, cloud.height * 0.8, 0, 0, Math.PI * 2);
-            ctx.ellipse(cloud.x + cloud.width * 0.4, cloud.y + 5, cloud.width * 0.6, cloud.height * 0.7, 0, 0, Math.PI * 2);
+            // Draw three overlapping puffs to create the cloud cluster
+            drawPuff(cloud.x, cloud.y, cloud.width, cloud.height);
+            drawPuff(cloud.x - cloud.width * 0.3, cloud.y + 10, cloud.width * 0.7, cloud.height * 0.8);
+            drawPuff(cloud.x + cloud.width * 0.4, cloud.y + 5, cloud.width * 0.6, cloud.height * 0.7);
             
-            ctx.fill();
             ctx.restore();
         });
     }
