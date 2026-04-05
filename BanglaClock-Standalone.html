@@ -1053,7 +1053,10 @@ function drawAtmosphere() {
     if (theme.cloudVisible) {
         clouds.forEach(cloud => {
             cloud.x += cloud.speed;
-            if (cloud.x > starsCanvas.width) cloud.x = -cloud.width;
+            // Buffer the boundary check so the entire cloud cluster drifts off-screen
+            if (cloud.x - cloud.width * 2 > starsCanvas.width) {
+                cloud.x = -cloud.width * 2;
+            }
             ctx.save();
             // The "Phantom Shadow" trick: Draw the shape far away and cast only the shadow back
             const shadowOffset = 5000; // Draw shapes 5000px off-screen
